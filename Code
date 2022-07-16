@@ -1,0 +1,78 @@
+import javax.swing.*;//(importing) Swing is a part of Java Foundation Classes(JFC) that is used to create window based applications
+import java.awt.*;//(importing) Abstract Window Toolkit(AWT) for GUI or windows based applications
+import java.text.SimpleDateFormat; //used for formating- converting date to string (and) parsing- converting string to date
+import java.util.Calendar; //used to change the Calendar fields such as year, month, day and so on.........
+
+public class Clock extends JFrame {
+	
+	Calendar calendar;
+    SimpleDateFormat timeFormat;
+    SimpleDateFormat dayFormat;
+    SimpleDateFormat dateFormat;
+
+    //JLabel - a display area for short text string or an image, or both.........
+    JLabel timeLabel;
+    JLabel dayLabel;
+    JLabel dateLabel;
+   
+    String time;
+    String day;
+    String date;
+    Clock() {
+        
+    	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Whenever you close the IDE then JFrame exits (application closes)
+        this.setTitle("Digital Clock"); //we are setting the Frame title to "Digital Clock" 
+        this.setLayout(new FlowLayout()); //Flow Layout - arranging the components of JLabel in a directional flow without giving any dimensions
+        this.setSize(350, 220); //size of the frame (x_axis, y_axis)
+        this.setResizable(false); //restricting the user to change the size of the frame
+        
+        //setting the formats of date, time, day..........
+        timeFormat = new SimpleDateFormat("hh:mm:ss a"); 
+        dayFormat=new SimpleDateFormat("EEEE");
+        dateFormat=new SimpleDateFormat("dd MMMMM, yyyy");
+        
+        timeLabel = new JLabel();
+        timeLabel.setFont(new Font("SANS_SERIF", Font.PLAIN, 59)); //Creates a new Font from the specified name, style and point size
+        timeLabel.setBackground(Color.BLACK); //time: background- black 
+        timeLabel.setForeground(Color.WHITE); //time: text- white
+        timeLabel.setOpaque(true); //By default setOpaque is set to false, we need to make it true to make all the pixels visible
+        
+        dayLabel=new JLabel();
+        dayLabel.setFont(new Font("Ink Free",Font.BOLD,34));
+
+        dateLabel=new JLabel();
+        dateLabel.setFont(new Font("Ink Free",Font.BOLD,30));
+
+        // adding date label to the frame
+        this.add(timeLabel);
+        this.add(dayLabel);
+        this.add(dateLabel);
+        this.setVisible(true); //Frame is visible if set true, else application runs but invisible
+        
+        setTimer();
+    }
+
+    public void setTimer() {
+        while (true) {
+        	
+        	//Calendar.getInstance().getTime() returns local time, Calendar.........
+            time = timeFormat.format(Calendar.getInstance().getTime()); //taking local time from the calendar and stored in "time" in timeFormat
+            timeLabel.setText(time); //timeLabel takes the input string time to display in particular font
+
+            day = dayFormat.format(Calendar.getInstance().getTime()); //taking local day from the calendar and stored in "day" in dayFormat
+            dayLabel.setText(day); //dayLabel takes the input string day to display in particular font
+
+            date = dateFormat.format(Calendar.getInstance().getTime()); //taking local date from the calendar and stored in "date" in dateFormat
+            dateLabel.setText(date); //dateLabel takes the input string date to display in particular font
+
+            try {                   //used to call the thread every one second
+                Thread.sleep(1000);
+            } catch (Exception e) {
+                e.getStackTrace(); //Returns an array of stack trace elements, each representing one stack frame when an exception is thrown
+            }
+        }
+    }
+    public static void main(String[] args) {
+        new Clock(); //creating Clock object
+    }
+}
